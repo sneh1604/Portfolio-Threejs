@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { navLinks } from '../constants/index.js';
 
@@ -16,37 +17,55 @@ const NavItems = ({ onClick = () => {} }) => (
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#010B2A]">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center py-5 mx-auto c-space">
-          <a href="/" className="text-neutral-400 font-bold text-xl hover:text-white transition-colors">
-            Sneh
-          </a>
-
+    <nav className="fixed top-0 z-50 w-full bg-slate-800/70 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="text-white font-bold text-xl">Portfolio</Link>
+          
+          {/* Mobile menu button */}
           <button
+            className="md:hidden p-2 rounded-md text-gray-400"
             onClick={toggleMenu}
-            className="text-neutral-400 hover:text-white focus:outline-none sm:hidden flex"
-            aria-label="Toggle menu">
-            <img src={isOpen ? 'assets/close.svg' : 'assets/menu.svg'} alt="toggle" className="w-6 h-6" />
+          >
+            <span className="sr-only">Open menu</span>
+            {/* Add hamburger icon */}
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
           </button>
 
-          <nav className="sm:flex hidden">
+          {/* Desktop menu */}
+          <div className="hidden md:flex items-center space-x-4">
             <NavItems />
-          </nav>
+            <button
+              onClick={() => navigate('/resume')}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
+            >
+              Resume
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile menu */}
+        <div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <NavItems onClick={closeMenu} />
+            <button
+              onClick={() => navigate('/resume')}
+              className="w-full text-left block bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors"
+            >
+              Resume
+            </button>
+          </div>
         </div>
       </div>
-
-      <div className={`nav-sidebar ${isOpen ? 'max-h-screen' : 'max-h-0'}`}>
-        <nav className="p-5">
-          <NavItems onClick={closeMenu} />
-        </nav>
-      </div>
-    </header>
+    </nav>
   );
 };
 

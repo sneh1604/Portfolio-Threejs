@@ -1,0 +1,54 @@
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500;
+  }
+  
+  .hero-content {
+    @apply relative z-10;
+  }
+  
+  .canvas-container {
+    @apply relative z-0;
+  }
+  
+  /* Responsive typography */
+  @screen sm {
+    h1 {
+      @apply text-5xl;
+    }
+    h2 {
+      @apply text-4xl;
+    }
+    p {
+      @apply text-lg;
+    }
+  }
+  
+  @screen lg {
+    h1 {
+      @apply text-7xl;
+    }
+    h2 {
+      @apply text-5xl;
+    }
+    p {
+      @apply text-xl;
+    }
+  }
+}
+
+/* Smooth scrolling */
+html {
+  @apply scroll-smooth;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .canvas-container {
+    height: 50vh !important;
+  }
+  
+  .hero-content {
+    @apply pt-20;
+  }
+}
